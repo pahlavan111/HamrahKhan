@@ -1,20 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="#F1F0F0"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        android:layout_marginTop="159dp"
+        android:layout_marginBottom="16dp"
+        android:text="شماره همراه خود را وارد کنید" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/imgcar"
+        android:visibility="invisible"
+        android:layout_width="73dp"
+        android:layout_height="73dp"
+        android:layout_marginBottom="17dp"
+        android:contentDescription="TODO"
+        app:srcCompat="@drawable/ic_car" />
+
+    <EditText
+        android:id="@+id/editTextNumberPassword"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
+        android:background="@drawable/edt_num_back"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="09*********"
+        android:inputType="number"
+        android:padding="8dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btn_get_code_back"
+        android:padding="8dp"
+        android:textSize="12sp"
+        android:text="دریافت کدفعال سازی"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>
