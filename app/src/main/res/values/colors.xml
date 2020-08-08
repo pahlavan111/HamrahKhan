@@ -15,4 +15,6 @@
     <color name="text">#ffffff</color>
     <color name="text_two">#94ffffff</color>
     <color name="green">#940ce61f</color>
+
+    <color name="TextColor1">#940ce61f</color>
 </resources>
