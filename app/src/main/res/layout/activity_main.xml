@@ -53,6 +53,7 @@
             android:id="@+id/ll_send_sms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <FrameLayout
@@ -102,7 +103,7 @@
 
         <LinearLayout
             android:id="@+id/ll_get_sms"
-            android:visibility="gone"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -120,9 +121,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/iran_yekan_bold_num"
-                    android:text="@string/timer_text" />
+                    android:textSize="10sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:text="@string/timer_text" />
 
                 <TextView
                     android:id="@+id/txt_edit_num"
@@ -132,7 +133,7 @@
                     android:layout_gravity="center"
                     android:text="@string/edit_number"
                     android:textColor="@android:color/holo_blue_light"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
             </RelativeLayout>
 

@@ -19,7 +19,7 @@ public interface ApiService {
 //    Single<SmsRes> login (@Header("apiCode")String apiCode,@Body MobileSend mobileSend) ;
 
 
-    @POST("/api/v1/user/verify")
+    @POST("/api/v1/user/login/verify")
     Single<CodeSendResponse> verify (@Header ("apiCode")String apiKey,@Body CodeSend codeSend) ;
 
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,14 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bp.hamrahkhan.data.ApiClient;
 import com.bp.hamrahkhan.data.ApiService;
 import com.bp.hamrahkhan.data.CodeSend;
 import com.bp.hamrahkhan.data.CodeSendResponse;
 import com.bp.hamrahkhan.data.MobileSend;
 import com.bp.hamrahkhan.data.MobileSendResponse;
-
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -31,7 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
 
     boolean x = true;
-    TextView txtDesc,txtEditNum;
+    TextView txtDesc,txtEditNum,txtTimer;
     ImageView imgLocation;
     EditText edtNumber, edtCode;
     Button btnGetCode, btnSendCode;
@@ -40,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String API_KEY = "0b49ad807b3c63860558cef5d1a6b46bc49afcf7";
     long mobile;
     ProgressBar progressBar;
+    CountDownTimer timer;
 
 
     @Override
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         txtEditNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timer.cancel();
                 turnToSendNumMode();
             }
         });
@@ -121,7 +122,10 @@ public class MainActivity extends AppCompatActivity {
                // Log.d("beh",mobileSendResponse.getData().isMobileValidation()+"");
                 switch (mobileSendResponse.getCode()) {
                     case 200:
-                        turnToGetCodeMode();
+                        if (linearSendNum.getVisibility()!=View.GONE){
+                            turnToGetCodeMode();
+                        }
+
                         progressBar.setVisibility(View.INVISIBLE);
                         break;
 
@@ -145,10 +149,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendCode() {
-        String code =edtCode.getText().toString();
-        Long referrer = Long.valueOf(0);
+        Long code =Long.parseLong(edtCode.getText().toString());
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        service.verify(API_KEY,new CodeSend(mobile,code,referrer,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        service.verify(API_KEY,new CodeSend(mobile,code,0,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<CodeSendResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -157,8 +160,9 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(CodeSendResponse codeSendResponse) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        timer.cancel();
                         Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
-
                     }
 
                     @Override
@@ -172,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpView() {
 
         txtDesc = findViewById(R.id.txt_desc);
+        txtTimer = findViewById(R.id.txt_timer);
         imgLocation = findViewById(R.id.img_location);
         edtNumber = findViewById(R.id.editTextNumberPassword);
         edtCode = findViewById(R.id.editGetCode);
@@ -185,6 +190,16 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar)findViewById(R.id.spin_kit);
        // Sprite doubleBounce = new DoubleBounce();
        // progressBar.setIndeterminateDrawable(doubleBounce);
+
+        txtTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (txtTimer.getText().toString().equals("ارسال دوباره کد!!")){
+                    sendSms();
+                    startTimer();
+                }
+            }
+        });
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.blink);
         imgLocation.startAnimation(animation);
 
@@ -214,8 +229,22 @@ public class MainActivity extends AppCompatActivity {
         edtCode.startAnimation(animation);
         animation = AnimationUtils.loadAnimation(this, R.anim.enter_bottom_slow);
         btnSendCode.startAnimation(animation);
-
         linearGetCode.setVisibility(View.VISIBLE);
+        startTimer();
+
+    }
+
+    void startTimer(){
+        timer = new CountDownTimer(60000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                txtTimer.setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                txtTimer.setText("ارسال دوباره کد!!");
+            }
+        }.start();
     }
 
 }
