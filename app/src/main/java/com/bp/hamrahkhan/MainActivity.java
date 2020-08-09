@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,21 +17,29 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bp.hamrahkhan.data.ApiClient;
-import com.bp.hamrahkhan.data.ApiService;
-import com.bp.hamrahkhan.data.CodeSend;
-import com.bp.hamrahkhan.data.CodeSendResponse;
-import com.bp.hamrahkhan.data.MobileSend;
-import com.bp.hamrahkhan.data.MobileSendResponse;
+
+import com.bp.hamrahkhan.retrofit.ApiClient;
+import com.bp.hamrahkhan.retrofit.ApiService;
+import com.bp.hamrahkhan.data.verify.CodeSend;
+import com.bp.hamrahkhan.data.sms.MobileSend;
+import com.bp.hamrahkhan.data.sms.MobileSendResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "behrooz" ;
     boolean x = true;
-    TextView txtDesc,txtEditNum,txtTimer;
+    TextView txtDesc, txtEditNum, txtTimer;
     ImageView imgLocation;
     EditText edtNumber, edtCode;
     Button btnGetCode, btnSendCode;
@@ -107,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendSms() {
 
-        mobile= Long.parseLong(edtNumber.getText().toString());
+        mobile = Long.parseLong(edtNumber.getText().toString());
         ApiService service = ApiClient.getClient().create(ApiService.class);
 
-        service.login(API_KEY,new MobileSend(mobile, API_KEY)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
+        service.login(API_KEY, new MobileSend(mobile, API_KEY)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -119,22 +128,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(MobileSendResponse mobileSendResponse) {
 
-               // Log.d("beh",mobileSendResponse.getData().isMobileValidation()+"");
+                // Log.d("beh",mobileSendResponse.getData().isMobileValidation()+"");
                 switch (mobileSendResponse.getCode()) {
                     case 200:
-                        if (linearSendNum.getVisibility()!=View.GONE){
+                        if (linearSendNum.getVisibility() != View.GONE) {
                             turnToGetCodeMode();
                         }
 
+                        timer.cancel();
                         progressBar.setVisibility(View.INVISIBLE);
                         break;
 
                     case 400:
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(MainActivity.this, "شماره تلفن اشتباه است", Toast.LENGTH_SHORT).show();
+                        break;
                     case 503:
                     case 403:
                     case 402:
-                        Toast.makeText(MainActivity.this, mobileSendResponse.getCode() + " -> " + mobileSendResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(MainActivity.this,mobileSendResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
+
+                    default:
+                        progressBar.setVisibility(View.INVISIBLE);
                 }
 
 
@@ -149,29 +166,78 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendCode() {
-        Long code =Long.parseLong(edtCode.getText().toString());
+        Long code = Long.parseLong(edtCode.getText().toString());
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        service.verify(API_KEY,new CodeSend(mobile,code,0,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<CodeSendResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        service.verify(API_KEY, new CodeSend(mobile, code, 0, "")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<ResponseBody>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
-                    }
+            }
 
-                    @Override
-                    public void onSuccess(CodeSendResponse codeSendResponse) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        timer.cancel();
-                        Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
-                    }
+            @Override
+            public void onSuccess(ResponseBody responseBody) {
 
-                    @Override
-                    public void onError(Throwable e) {
+                try {
+                    String string = responseBody.string();
+                    Log.d(TAG,string);
 
-                    }
-                });
+                    JSONObject object = new JSONObject(string);
+                    Toast.makeText(MainActivity.this, object.getString("Message")+"--"+object.getInt("Code"), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+//
+//                    switch (object.getInt("Code")) {
+//
+//
+//
+////                        case 200:
+////
+////                            Toast.makeText(MainActivity.this, object.getString("Message"), Toast.LENGTH_SHORT).show();
+////                            progressBar.setVisibility(View.INVISIBLE);
+////                            break;
+////
+////
+////                        default:
+////                            Toast.makeText(MainActivity.this, object.getString("Message"), Toast.LENGTH_SHORT).show();
+////                            progressBar.setVisibility(View.INVISIBLE);
+////
+//
+//                    }
+
+
+                } catch (IOException | JSONException e) {
+                    Log.d("beh", e.toString());
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+
+//        service.verify(API_KEY,new CodeSend(mobile,code,0,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new SingleObserver<CodeSendResponse>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(CodeSendResponse codeSendResponse) {
+//                        progressBar.setVisibility(View.INVISIBLE);
+//                        timer.cancel();
+//                        Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
+//
+//                        Profile profile=codeSendResponse.getData().getProfile();
+//                      //  Toast.makeText(MainActivity.this, profile.getReferringCode()+"", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//                });
     }
-
 
     private void setUpView() {
 
@@ -187,14 +253,14 @@ public class MainActivity extends AppCompatActivity {
         rlTimerContainer = findViewById(R.id.rl_timer_container);
         txtEditNum = findViewById(R.id.txt_edit_num);
 
-        progressBar = (ProgressBar)findViewById(R.id.spin_kit);
-       // Sprite doubleBounce = new DoubleBounce();
-       // progressBar.setIndeterminateDrawable(doubleBounce);
+        progressBar = (ProgressBar) findViewById(R.id.spin_kit);
+        // Sprite doubleBounce = new DoubleBounce();
+        // progressBar.setIndeterminateDrawable(doubleBounce);
 
         txtTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txtTimer.getText().toString().equals("ارسال دوباره کد!!")){
+                if (txtTimer.getText().toString().equals("ارسال دوباره کد!!")) {
                     sendSms();
                     startTimer();
                 }
@@ -234,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void startTimer(){
+    void startTimer() {
         timer = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {

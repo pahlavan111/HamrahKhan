@@ -1,4 +1,4 @@
-package com.bp.hamrahkhan.data;
+package com.bp.hamrahkhan.retrofit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

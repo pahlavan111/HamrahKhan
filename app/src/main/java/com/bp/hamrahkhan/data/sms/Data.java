@@ -1,4 +1,4 @@
-package com.bp.hamrahkhan.data;
+package com.bp.hamrahkhan.data.sms;
 
 public class Data {
     private boolean mobileValidation;

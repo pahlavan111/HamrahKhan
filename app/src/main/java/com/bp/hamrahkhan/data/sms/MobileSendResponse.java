@@ -1,4 +1,4 @@
-package com.bp.hamrahkhan.data;
+package com.bp.hamrahkhan.data.sms;
 
 public class MobileSendResponse {
 
@@ -7,11 +7,11 @@ public class MobileSendResponse {
     private String Message;
 
 
-    public com.bp.hamrahkhan.data.Data getData() {
+    public com.bp.hamrahkhan.data.sms.Data getData() {
         return Data;
     }
 
-    public void setData(com.bp.hamrahkhan.data.Data data) {
+    public void setData(com.bp.hamrahkhan.data.sms.Data data) {
         Data = data;
     }
 
