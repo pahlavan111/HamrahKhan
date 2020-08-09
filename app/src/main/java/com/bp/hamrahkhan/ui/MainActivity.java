@@ -1,6 +1,9 @@
-package com.bp.hamrahkhan;
+package com.bp.hamrahkhan.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -15,8 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bp.hamrahkhan.R;
 import com.bp.hamrahkhan.data.verify.CodeSendResponse;
-import com.bp.hamrahkhan.data.verify.Profile;
 import com.bp.hamrahkhan.retrofit.ApiClient;
 import com.bp.hamrahkhan.retrofit.ApiService;
 import com.bp.hamrahkhan.data.verify.CodeSend;
@@ -59,26 +63,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        txtEditNum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timer.cancel();
-                progressBar.setVisibility(View.GONE);
-                turnToSendNumMode();
-            }
+        txtEditNum.setOnClickListener(v -> {
+            timer.cancel();
+            progressBar.setVisibility(View.GONE);
+            turnToSendNumMode();
         });
 
-        btnSendCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkCodeNumber()) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    sendCode();
+        btnSendCode.setOnClickListener(v -> {
+            if (checkCodeNumber()) {
+                progressBar.setVisibility(View.VISIBLE);
+                sendCode();
 
-                }
             }
-
-
         });
 
 
@@ -171,8 +167,11 @@ public class MainActivity extends AppCompatActivity {
                         timer.cancel();
                         Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
 
-                        Profile profile=codeSendResponse.getData().getProfile();
-                        Toast.makeText(MainActivity.this, profile.getReferringCode()+"", Toast.LENGTH_SHORT).show();
+                        if (codeSendResponse.getCode()==200){
+                            Intent intent=new Intent(MainActivity.this,ActivityPathList.class);
+                            startActivity(intent);
+                        }
+
                     }
 
                     @Override
@@ -196,17 +195,14 @@ public class MainActivity extends AppCompatActivity {
         rlTimerContainer = findViewById(R.id.rl_timer_container);
         txtEditNum = findViewById(R.id.txt_edit_num);
 
-        progressBar = (ProgressBar) findViewById(R.id.spin_kit);
+        progressBar = findViewById(R.id.spin_kit);
         // Sprite doubleBounce = new DoubleBounce();
         // progressBar.setIndeterminateDrawable(doubleBounce);
 
-        txtTimer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (txtTimer.getText().toString().equals("ارسال دوباره کد!!")) {
-                    sendSms();
-                    startTimer();
-                }
+        txtTimer.setOnClickListener(v -> {
+            if (txtTimer.getText().toString().equals("ارسال دوباره کد!!")) {
+                sendSms();
+                startTimer();
             }
         });
 
@@ -247,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
     void startTimer() {
         timer = new CountDownTimer(60000, 1000) {
 
+            @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished) {
                 txtTimer.setText("" + millisUntilFinished / 1000);
             }

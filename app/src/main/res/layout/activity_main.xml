@@ -8,7 +8,7 @@
         android:background="#F1FFFE"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".ui.MainActivity">
 
 
         <RelativeLayout
