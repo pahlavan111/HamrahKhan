@@ -1,8 +1,6 @@
 package com.bp.hamrahkhan;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -17,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bp.hamrahkhan.data.verify.CodeSendResponse;
 import com.bp.hamrahkhan.data.verify.Profile;
 import com.bp.hamrahkhan.retrofit.ApiClient;
@@ -25,19 +22,11 @@ import com.bp.hamrahkhan.retrofit.ApiService;
 import com.bp.hamrahkhan.data.verify.CodeSend;
 import com.bp.hamrahkhan.data.sms.MobileSend;
 import com.bp.hamrahkhan.data.sms.MobileSendResponse;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 timer.cancel();
+                progressBar.setVisibility(View.GONE);
                 turnToSendNumMode();
             }
         });
