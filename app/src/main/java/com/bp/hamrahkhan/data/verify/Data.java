@@ -6,16 +6,12 @@ public class Data {
 
     @SerializedName("codeValidation")
     private boolean codeValidation;
-
     @SerializedName("token")
     private String token;
-
     @SerializedName("refreshToken")
     private String refreshToken;
-
     @SerializedName("profile")
     Profile ProfileObject;
-
     @SerializedName("intro")
     private boolean intro;
 
@@ -27,7 +23,6 @@ public class Data {
         this.intro = intro;
     }
 
-    // Getter Methods
 
     public boolean getCodeValidation() {
         return codeValidation;
@@ -49,7 +44,6 @@ public class Data {
         return intro;
     }
 
-    // Setter Methods
 
     public void setCodeValidation(boolean codeValidation) {
         this.codeValidation = codeValidation;

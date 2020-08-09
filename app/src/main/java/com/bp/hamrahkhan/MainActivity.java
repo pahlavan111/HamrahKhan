@@ -30,7 +30,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "behrooz" ;
     TextView txtDesc, txtEditNum, txtTimer;
     ImageView imgLocation;
     EditText edtNumber, edtCode;

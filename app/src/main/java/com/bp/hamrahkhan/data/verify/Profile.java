@@ -6,22 +6,16 @@ public class Profile {
 
     @SerializedName("name")
     private String name = null;
-
     @SerializedName("gender")
     private String gender = null;
-
     @SerializedName("defaultCity")
     private int defaultCity;
-
     @SerializedName("referringCode")
     private String referringCode;
-
     @SerializedName("referrer")
     private String referrer = null;
-
     @SerializedName("defaultWallet")
     private String defaultWallet = null;
-
     @SerializedName("points")
     private int points;
 
@@ -34,8 +28,6 @@ public class Profile {
         this.defaultWallet = defaultWallet;
         this.points = points;
     }
-
-    // Getter Methods
 
     public String getName() {
         return name;
@@ -65,7 +57,6 @@ public class Profile {
         return points;
     }
 
-    // Setter Methods
 
     public void setName(String name) {
         this.name = name;

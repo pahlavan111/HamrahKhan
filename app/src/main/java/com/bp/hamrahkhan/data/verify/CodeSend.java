@@ -23,8 +23,6 @@ public class CodeSend {
         this.referrerCode = referrerCode;
     }
 
-    // Getter Methods
-
     public long getMobile() {
         return mobile;
     }
@@ -33,12 +31,9 @@ public class CodeSend {
         return verificationCode;
     }
 
-
     public String getReferrerCode() {
         return referrerCode;
     }
-
-    // Setter Methods
 
     public void setMobile( long mobile ) {
         this.mobile = mobile;

@@ -6,10 +6,8 @@ public class CodeSendResponse {
 
     @SerializedName("Data")
     Data DataObject;
-
     @SerializedName("Code")
     private int Code;
-
     @SerializedName("Message")
     private String Message;
 
@@ -18,8 +16,6 @@ public class CodeSendResponse {
         Code = code;
         Message = message;
     }
-
-// Getter Methods
 
     public Data getData() {
         return DataObject;
@@ -32,8 +28,6 @@ public class CodeSendResponse {
     public String getMessage() {
         return Message;
     }
-
-    // Setter Methods
 
     public void setData(Data DataObject) {
         this.DataObject = DataObject;

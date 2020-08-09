@@ -8,8 +8,6 @@ public class Data {
     @SerializedName("newUser")
     private boolean newUser;
 
-    // Getter Methods
-
     public boolean getMobileValidation() {
         return mobileValidation;
     }
@@ -17,8 +15,6 @@ public class Data {
     public boolean getNewUser() {
         return newUser;
     }
-
-    // Setter Methods
 
     public void setMobileValidation(boolean mobileValidation) {
         this.mobileValidation = mobileValidation;

@@ -3,6 +3,7 @@ package com.bp.hamrahkhan.data.sms;
 import com.google.gson.annotations.SerializedName;
 
 public class MobileSend {
+
     @SerializedName("mobile")
     private Long mobile;
     @SerializedName("apiCode")
