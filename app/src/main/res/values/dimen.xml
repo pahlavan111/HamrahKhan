@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="txt_station_padding_bottom" >2dp</dimen>
+    <dimen name="txt_station_padding_top" >2dp</dimen>
+    <dimen name="txt_station_padding_right" >16dp</dimen>
+    <dimen name="txt_station_padding_left" >16dp</dimen>
+</resources>

@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                         if (codeSendResponse.getCode()==200){
                             Intent intent=new Intent(MainActivity.this,ActivityPathList.class);
                             startActivity(intent);
+                            finish();
                         }
 
                     }
