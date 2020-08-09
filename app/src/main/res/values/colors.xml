@@ -2,19 +2,16 @@
 <resources>
     <color name="colorPrimary">#31AF94</color>
     <color name="colorPrimaryDark">#2C9596</color>
-    <color name="colorAccent">#1D6595</color>
-    <color name="colorBudGreen">#7BB662</color>
+    <color name="colorAccent">#31AF94</color>
+    <color name="colorAccent2">#ba68c8</color>
+    <color name="colorEdtDrawable">#31AF94</color>
     <color name="colorMaximumRed">#D61F1F</color>
     <color name="colorCGRed">#E03C32</color>
 
 
-    <color name="colorPrimary2">#131A56</color>
-    <color name="colorPrimaryDark2">#131A56</color>
+    <color name="colorTextBlue">#BC131A56</color>
+    <color name="colorTextBlueDark">#131A56</color>
     <color name="secondPage">#00838F</color>
-    <color name="colorAccent2">#ba68c8</color>
     <color name="text">#ffffff</color>
     <color name="text_two">#94ffffff</color>
-    <color name="green">#940ce61f</color>
-
-    <color name="TextColor1">#940ce61f</color>
 </resources>

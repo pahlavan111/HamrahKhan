@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Hamrah Khan</string>
     <string name="enterNumber">شماره همراه خود را وارد کنید</string>
+    <string name="etd_number_hint">9*********</string>
+    <string name="edit_number">اصلاح شماره همراه</string>
+    <string name="timer_text">60</string>
+    <string name="enter_code">کد را وارد کنید</string>
+    <string name="send_code">ارسال کدفعال سازی</string>
+    <string name="receiveCode">دریافت کدفعال سازی</string>
 </resources>
