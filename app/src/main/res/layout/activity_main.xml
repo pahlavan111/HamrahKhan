@@ -121,7 +121,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:visibility="visible"
                     android:textSize="10sp"
+                    android:layout_marginStart="4dp"
                     android:textColor="@color/colorPrimaryDark"
                     tools:text="@string/timer_text" />
 
@@ -131,6 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="4dp"
                     android:text="@string/edit_number"
                     android:textColor="@android:color/holo_blue_light"
                     android:textSize="10sp" />

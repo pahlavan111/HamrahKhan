@@ -18,11 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bp.hamrahkhan.data.verify.CodeSendResponse;
+import com.bp.hamrahkhan.data.verify.Profile;
 import com.bp.hamrahkhan.retrofit.ApiClient;
 import com.bp.hamrahkhan.retrofit.ApiService;
 import com.bp.hamrahkhan.data.verify.CodeSend;
 import com.bp.hamrahkhan.data.sms.MobileSend;
 import com.bp.hamrahkhan.data.sms.MobileSendResponse;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +42,6 @@ import okhttp3.ResponseBody;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "behrooz" ;
-    boolean x = true;
     TextView txtDesc, txtEditNum, txtTimer;
     ImageView imgLocation;
     EditText edtNumber, edtCode;
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         if (num.length() == 4) {
             return true;
         } else {
-            edtNumber.setError("کد به صورت صحیح وارد نشده است!");
+            edtCode.setError("کد به صورت صحیح وارد نشده است!");
             return false;
         }
     }
@@ -118,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         mobile = Long.parseLong(edtNumber.getText().toString());
         ApiService service = ApiClient.getClient().create(ApiService.class);
-
-        service.login(API_KEY, new MobileSend(mobile, API_KEY)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
+        service.login(API_KEY,new MobileSend(mobile, API_KEY) ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -128,14 +130,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(MobileSendResponse mobileSendResponse) {
 
-                // Log.d("beh",mobileSendResponse.getData().isMobileValidation()+"");
+                 Log.d("beh",mobileSendResponse.getData().getMobileValidation()+"");
                 switch (mobileSendResponse.getCode()) {
                     case 200:
                         if (linearSendNum.getVisibility() != View.GONE) {
                             turnToGetCodeMode();
+                            timer.start();
                         }
 
-                        timer.cancel();
                         progressBar.setVisibility(View.INVISIBLE);
                         break;
 
@@ -154,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                 }
 
-
             }
 
             @Override
@@ -166,77 +167,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendCode() {
-        Long code = Long.parseLong(edtCode.getText().toString());
+        String code = edtCode.getText().toString();
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        service.verify(API_KEY, new CodeSend(mobile, code, 0, "")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<ResponseBody>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+        service.verify(API_KEY,new CodeSend(mobile,code,0,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CodeSendResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            }
+                    }
 
-            @Override
-            public void onSuccess(ResponseBody responseBody) {
+                    @Override
+                    public void onSuccess(CodeSendResponse codeSendResponse) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        timer.cancel();
+                        Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
 
-                try {
-                    String string = responseBody.string();
-                    Log.d(TAG,string);
+                        Profile profile=codeSendResponse.getData().getProfile();
+                        Toast.makeText(MainActivity.this, profile.getReferringCode()+"", Toast.LENGTH_SHORT).show();
+                    }
 
-                    JSONObject object = new JSONObject(string);
-                    Toast.makeText(MainActivity.this, object.getString("Message")+"--"+object.getInt("Code"), Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.INVISIBLE);
-//
-//                    switch (object.getInt("Code")) {
-//
-//
-//
-////                        case 200:
-////
-////                            Toast.makeText(MainActivity.this, object.getString("Message"), Toast.LENGTH_SHORT).show();
-////                            progressBar.setVisibility(View.INVISIBLE);
-////                            break;
-////
-////
-////                        default:
-////                            Toast.makeText(MainActivity.this, object.getString("Message"), Toast.LENGTH_SHORT).show();
-////                            progressBar.setVisibility(View.INVISIBLE);
-////
-//
-//                    }
+                    @Override
+                    public void onError(Throwable e) {
 
-
-                } catch (IOException | JSONException e) {
-                    Log.d("beh", e.toString());
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-        });
-
-//        service.verify(API_KEY,new CodeSend(mobile,code,0,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new SingleObserver<CodeSendResponse>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(CodeSendResponse codeSendResponse) {
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                        timer.cancel();
-//                        Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
-//
-//                        Profile profile=codeSendResponse.getData().getProfile();
-//                      //  Toast.makeText(MainActivity.this, profile.getReferringCode()+"", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//                });
+                    }
+                });
     }
 
     private void setUpView() {
@@ -266,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.blink);
         imgLocation.startAnimation(animation);
 
@@ -313,4 +268,14 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (progressBar.getVisibility()==View.VISIBLE){
+            progressBar.setVisibility(View.GONE);
+        }else{
+            super.onBackPressed();
+        }
+
+    }
 }

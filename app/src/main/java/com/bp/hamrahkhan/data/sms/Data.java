@@ -1,7 +1,11 @@
 package com.bp.hamrahkhan.data.sms;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Data {
+    @SerializedName("mobileValidation")
     private boolean mobileValidation;
+    @SerializedName("newUser")
     private boolean newUser;
 
     // Getter Methods

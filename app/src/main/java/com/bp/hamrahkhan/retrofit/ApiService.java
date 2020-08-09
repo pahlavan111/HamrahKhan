@@ -4,6 +4,7 @@ package com.bp.hamrahkhan.retrofit;
 import com.bp.hamrahkhan.data.sms.MobileSend;
 import com.bp.hamrahkhan.data.sms.MobileSendResponse;
 import com.bp.hamrahkhan.data.verify.CodeSend;
+import com.bp.hamrahkhan.data.verify.CodeSendResponse;
 
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
@@ -21,10 +22,10 @@ public interface ApiService {
     Single<MobileSendResponse> login (@Header("apiCode")String apiCode, @Body MobileSend mobileSend) ;
 
 
-//    @POST("/api/v1/user/login/verify")
-//    Single<CodeSendResponse> verify (@Header ("apiCode")String apiKey, @Body CodeSend codeSend) ;
-
     @POST("/api/v1/user/login/verify")
-    Single<ResponseBody> verify (@Header ("apiCode")String apiKey, @Body CodeSend codeSend) ;
+    Single<CodeSendResponse> verify (@Header ("apiCode")String apiKey, @Body CodeSend codeSend) ;
+
+//    @POST("/api/v1/user/login/verify")
+//    Single<ResponseBody> verify (@Header ("apiCode")String apiKey, @Body CodeSend codeSend) ;
 
 }

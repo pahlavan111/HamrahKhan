@@ -1,18 +1,31 @@
 package com.bp.hamrahkhan.data.verify;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CodeSendResponse {
+
+    @SerializedName("Data")
     Data DataObject;
-    private float Code;
+
+    @SerializedName("Code")
+    private int Code;
+
+    @SerializedName("Message")
     private String Message;
 
+    public CodeSendResponse(Data dataObject, int code, String message) {
+        DataObject = dataObject;
+        Code = code;
+        Message = message;
+    }
 
-    // Getter Methods
+// Getter Methods
 
     public Data getData() {
         return DataObject;
     }
 
-    public float getCode() {
+    public int getCode() {
         return Code;
     }
 
@@ -26,7 +39,7 @@ public class CodeSendResponse {
         this.DataObject = DataObject;
     }
 
-    public void setCode(float Code) {
+    public void setCode(int Code) {
         this.Code = Code;
     }
 

@@ -1,13 +1,22 @@
 package com.bp.hamrahkhan.data.verify;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CodeSend {
 
+    @SerializedName("mobile")
     private Long mobile;
-    private Long verificationCode;
+
+    @SerializedName("verificationCode")
+    private String verificationCode;
+
+    @SerializedName("referrer")
     private int referrer;
+
+    @SerializedName("referrerCode")
     private String referrerCode;
 
-    public CodeSend(Long mobile, Long verificationCode, int referrer, String referrerCode) {
+    public CodeSend(Long mobile, String verificationCode, int referrer, String referrerCode) {
         this.mobile = mobile;
         this.verificationCode = verificationCode;
         this.referrer = referrer;
@@ -20,7 +29,7 @@ public class CodeSend {
         return mobile;
     }
 
-    public Long getVerificationCode() {
+    public String getVerificationCode() {
         return verificationCode;
     }
 
@@ -35,7 +44,7 @@ public class CodeSend {
         this.mobile = mobile;
     }
 
-    public void setVerificationCode( Long verificationCode ) {
+    public void setVerificationCode( String verificationCode ) {
         this.verificationCode = verificationCode;
     }
 
