@@ -3,9 +3,7 @@ package com.bp.hamrahkhan;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,12 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bp.hamrahkhan.data.ApiClient;
 import com.bp.hamrahkhan.data.ApiService;
+import com.bp.hamrahkhan.data.CodeSend;
+import com.bp.hamrahkhan.data.CodeSendResponse;
 import com.bp.hamrahkhan.data.MobileSend;
 import com.bp.hamrahkhan.data.MobileSendResponse;
 
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout linearSendNum, linearGetCode;
     RelativeLayout rlTimerContainer;
     private static final String API_KEY = "0b49ad807b3c63860558cef5d1a6b46bc49afcf7";
-    AlertDialog dialog;
+    long mobile;
+    ProgressBar progressBar;
 
 
     @Override
@@ -51,15 +53,9 @@ public class MainActivity extends AppCompatActivity {
         btnGetCode.setOnClickListener(v -> {
 
             if (checkMobileNumber()) {
+                progressBar.setVisibility(View.VISIBLE);
                 sendSms();
 
-
-                AlertDialog.Builder builder= new AlertDialog.Builder(MainActivity.this);
-                final LayoutInflater inflater= LayoutInflater.from(MainActivity.this);
-                View view= inflater.inflate(R.layout.dialog,null);
-                builder.setView(view);
-                dialog=builder.create();
-                dialog.show();
             }
         });
 
@@ -68,6 +64,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 turnToSendNumMode();
             }
+        });
+
+        btnSendCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkCodeNumber()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    sendCode();
+
+                }
+            }
+
+
         });
 
 
@@ -84,11 +93,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private boolean checkCodeNumber() {
+
+        String num = edtCode.getText().toString();
+        if (num.length() == 4) {
+            return true;
+        } else {
+            edtNumber.setError("کد به صورت صحیح وارد نشده است!");
+            return false;
+        }
+    }
+
     private void sendSms() {
 
-        Long num = Long.parseLong(edtNumber.getText().toString());
+        mobile= Long.parseLong(edtNumber.getText().toString());
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        service.login(new MobileSend(num, API_KEY)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
+
+        service.login(API_KEY,new MobileSend(mobile, API_KEY)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -97,10 +118,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(MobileSendResponse mobileSendResponse) {
 
+               // Log.d("beh",mobileSendResponse.getData().isMobileValidation()+"");
                 switch (mobileSendResponse.getCode()) {
                     case 200:
                         turnToGetCodeMode();
-                        dialog.dismiss();
+                        progressBar.setVisibility(View.INVISIBLE);
                         break;
 
                     case 400:
@@ -122,6 +144,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void sendCode() {
+        String code =edtCode.getText().toString();
+        Long referrer = Long.valueOf(0);
+        ApiService service = ApiClient.getClient().create(ApiService.class);
+        service.verify(API_KEY,new CodeSend(mobile,code,referrer,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<CodeSendResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(CodeSendResponse codeSendResponse) {
+                        Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
 
     private void setUpView() {
 
@@ -136,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
         rlTimerContainer = findViewById(R.id.rl_timer_container);
         txtEditNum = findViewById(R.id.txt_edit_num);
 
+        progressBar = (ProgressBar)findViewById(R.id.spin_kit);
+       // Sprite doubleBounce = new DoubleBounce();
+       // progressBar.setIndeterminateDrawable(doubleBounce);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.blink);
         imgLocation.startAnimation(animation);
 
@@ -155,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
         linearSendNum.setVisibility(View.VISIBLE);
     }
 
-
     void turnToGetCodeMode() {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_out);
         linearSendNum.startAnimation(animation);
@@ -169,6 +217,5 @@ public class MainActivity extends AppCompatActivity {
 
         linearGetCode.setVisibility(View.VISIBLE);
     }
-
 
 }

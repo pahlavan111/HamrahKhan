@@ -1,18 +1,17 @@
 package com.bp.hamrahkhan.data;
 
-public class MobileSendResponse {
-
-    Data Data;
+public class CodeSendResponse {
+    Data mData;
     private int Code;
     private String Message;
 
 
-    public com.bp.hamrahkhan.data.Data getData() {
-        return Data;
+    public Data getmData() {
+        return mData;
     }
 
-    public void setData(com.bp.hamrahkhan.data.Data data) {
-        Data = data;
+    public void setmData(Data mData) {
+        this.mData = mData;
     }
 
     public int getCode() {
@@ -20,7 +19,7 @@ public class MobileSendResponse {
     }
 
     public void setCode(int code) {
-        this.Code = code;
+        Code = code;
     }
 
     public String getMessage() {
@@ -28,6 +27,6 @@ public class MobileSendResponse {
     }
 
     public void setMessage(String message) {
-        this.Message = message;
+        Message = message;
     }
 }
