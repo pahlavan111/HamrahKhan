@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorTextGreen"
-            android:text="میدان ازادی"
+            android:text="میدان آزادی"
             android:textSize="12sp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
