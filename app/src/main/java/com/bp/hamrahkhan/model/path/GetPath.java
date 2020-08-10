@@ -1,4 +1,4 @@
-package com.bp.hamrahkhan.data.path;
+package com.bp.hamrahkhan.model.path;
 
 import com.google.gson.annotations.SerializedName;
 

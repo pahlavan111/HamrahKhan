@@ -1,4 +1,4 @@
-package com.bp.hamrahkhan.data.verify;
+package com.bp.hamrahkhan.model.verify;
 
 import com.google.gson.annotations.SerializedName;
 

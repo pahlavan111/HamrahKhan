@@ -20,12 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bp.hamrahkhan.R;
-import com.bp.hamrahkhan.data.verify.CodeSendResponse;
+import com.bp.hamrahkhan.model.verify.CodeSendResponse;
 import com.bp.hamrahkhan.retrofit.ApiClient;
 import com.bp.hamrahkhan.retrofit.ApiService;
-import com.bp.hamrahkhan.data.verify.CodeSend;
-import com.bp.hamrahkhan.data.sms.MobileSend;
-import com.bp.hamrahkhan.data.sms.MobileSendResponse;
+import com.bp.hamrahkhan.model.verify.CodeSend;
+import com.bp.hamrahkhan.model.sms.MobileSend;
+import com.bp.hamrahkhan.model.sms.MobileSendResponse;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

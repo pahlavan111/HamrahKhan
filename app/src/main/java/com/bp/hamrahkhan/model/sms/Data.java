@@ -1,4 +1,4 @@
-package com.bp.hamrahkhan.data.sms;
+package com.bp.hamrahkhan.model.sms;
 
 import com.google.gson.annotations.SerializedName;
 

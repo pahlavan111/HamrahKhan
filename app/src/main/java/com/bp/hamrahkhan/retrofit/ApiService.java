@@ -1,10 +1,10 @@
 package com.bp.hamrahkhan.retrofit;
 
 
-import com.bp.hamrahkhan.data.sms.MobileSend;
-import com.bp.hamrahkhan.data.sms.MobileSendResponse;
-import com.bp.hamrahkhan.data.verify.CodeSend;
-import com.bp.hamrahkhan.data.verify.CodeSendResponse;
+import com.bp.hamrahkhan.model.sms.MobileSend;
+import com.bp.hamrahkhan.model.sms.MobileSendResponse;
+import com.bp.hamrahkhan.model.verify.CodeSend;
+import com.bp.hamrahkhan.model.verify.CodeSendResponse;
 import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.Header;

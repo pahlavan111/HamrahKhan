@@ -1,4 +1,4 @@
-package com.bp.hamrahkhan.data.sms;
+package com.bp.hamrahkhan.model.sms;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,17 +11,17 @@ public class MobileSendResponse {
     @SerializedName("Message")
     private String Message;
 
-    public MobileSendResponse(com.bp.hamrahkhan.data.sms.Data data, int code, String message) {
+    public MobileSendResponse(com.bp.hamrahkhan.model.sms.Data data, int code, String message) {
         Data = data;
         Code = code;
         Message = message;
     }
 
-    public com.bp.hamrahkhan.data.sms.Data getData() {
+    public com.bp.hamrahkhan.model.sms.Data getData() {
         return Data;
     }
 
-    public void setData(com.bp.hamrahkhan.data.sms.Data data) {
+    public void setData(com.bp.hamrahkhan.model.sms.Data data) {
         Data = data;
     }
 
