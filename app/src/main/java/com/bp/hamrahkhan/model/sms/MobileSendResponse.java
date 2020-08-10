@@ -2,8 +2,11 @@ package com.bp.hamrahkhan.model.sms;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.reactivex.annotations.Nullable;
+
 public class MobileSendResponse {
 
+    @Nullable
     @SerializedName("Data")
     Data Data;
     @SerializedName("Code")

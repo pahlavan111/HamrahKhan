@@ -2,7 +2,7 @@ package com.bp.hamrahkhan.model.path;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GetPath {
+public class GetPathBody {
 
     @SerializedName("mobile")
     private Long mobile;
@@ -20,7 +20,7 @@ public class GetPath {
     private String pathType;
 
 
-    public GetPath(Long mobile, String value, int city, int page, int sourceStation, int destinationStation, String pathType) {
+    public GetPathBody(Long mobile, String value, int city, int page, int sourceStation, int destinationStation, String pathType) {
         this.mobile = mobile;
         this.value = value;
         this.city = city;

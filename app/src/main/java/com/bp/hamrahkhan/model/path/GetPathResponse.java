@@ -7,13 +7,13 @@ public class GetPathResponse {
     @SerializedName("Data")
     Data data;
     @SerializedName("Code")
-    private int code ;
+    private int Code;
     @SerializedName("Message")
     private String Message;
 
     public GetPathResponse(Data data, int code, String message) {
         this.data = data;
-        this.code = code;
+        this.Code = code;
         Message = message;
     }
 
@@ -26,11 +26,11 @@ public class GetPathResponse {
     }
 
     public int getCode() {
-        return code;
+        return Code;
     }
 
     public void setCode(int code) {
-        this.code = code;
+        this.Code = code;
     }
 
     public String getMessage() {

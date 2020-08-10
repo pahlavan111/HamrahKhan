@@ -2,7 +2,7 @@ package com.bp.hamrahkhan.model.verify;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CodeSend {
+public class CodeSendBody {
 
     @SerializedName("mobile")
     private Long mobile;
@@ -16,7 +16,7 @@ public class CodeSend {
     @SerializedName("referrerCode")
     private String referrerCode;
 
-    public CodeSend(Long mobile, String verificationCode, int referrer, String referrerCode) {
+    public CodeSendBody(Long mobile, String verificationCode, int referrer, String referrerCode) {
         this.mobile = mobile;
         this.verificationCode = verificationCode;
         this.referrer = referrer;

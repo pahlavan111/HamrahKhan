@@ -1,9 +1,12 @@
 package com.bp.hamrahkhan.model.verify;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 public class CodeSendResponse {
 
+    @Nullable
     @SerializedName("Data")
     Data DataObject;
     @SerializedName("Code")

@@ -23,8 +23,8 @@ import com.bp.hamrahkhan.R;
 import com.bp.hamrahkhan.model.verify.CodeSendResponse;
 import com.bp.hamrahkhan.retrofit.ApiClient;
 import com.bp.hamrahkhan.retrofit.ApiService;
-import com.bp.hamrahkhan.model.verify.CodeSend;
-import com.bp.hamrahkhan.model.sms.MobileSend;
+import com.bp.hamrahkhan.model.verify.CodeSendBody;
+import com.bp.hamrahkhan.model.sms.MobileSendBody;
 import com.bp.hamrahkhan.model.sms.MobileSendResponse;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnGetCode, btnSendCode;
     LinearLayout linearSendNum, linearGetCode;
     RelativeLayout rlTimerContainer;
-    private static final String API_KEY = "0b49ad807b3c63860558cef5d1a6b46bc49afcf7";
+    public static final String API_KEY = "0b49ad807b3c63860558cef5d1a6b46bc49afcf7";
     long mobile;
     ProgressBar progressBar;
     CountDownTimer timer;
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         mobile = Long.parseLong(edtNumber.getText().toString());
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        service.login(API_KEY,new MobileSend(mobile, API_KEY) ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
+        service.login(API_KEY,new MobileSendBody(mobile, API_KEY) ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendCode() {
         String code = edtCode.getText().toString();
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        service.verify(API_KEY,new CodeSend(mobile,code,0,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        service.verify(API_KEY,new CodeSendBody(mobile,code,0,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<CodeSendResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -165,10 +165,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(CodeSendResponse codeSendResponse) {
                         progressBar.setVisibility(View.INVISIBLE);
                         timer.cancel();
-                        Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
+                     //   Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
 
                         if (codeSendResponse.getCode()==200){
+
                             Intent intent=new Intent(MainActivity.this,ActivityPathList.class);
+                            intent.putExtra("mobile",mobile);
+                            intent.putExtra("token",codeSendResponse.getData().getToken());
                             startActivity(intent);
                             finish();
                         }

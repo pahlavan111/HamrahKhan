@@ -2,14 +2,14 @@ package com.bp.hamrahkhan.model.sms;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MobileSend {
+public class MobileSendBody {
 
     @SerializedName("mobile")
     private Long mobile;
     @SerializedName("apiCode")
     private String apiCode;
 
-    public MobileSend(Long mobile, String apiCode) {
+    public MobileSendBody(Long mobile, String apiCode) {
         this.mobile = mobile;
         this.apiCode = apiCode;
     }
