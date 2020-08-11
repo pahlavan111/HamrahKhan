@@ -9,15 +9,21 @@ import com.bp.hamrahkhan.model.verify.CodeSendBody;
 import com.bp.hamrahkhan.model.verify.CodeSendResponse;
 import java.util.Map;
 import io.reactivex.Single;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 
 public interface ApiService {
 
+//    @POST("/api/v1/user/login")
+//    Single<MobileSendResponse> login (@Header("apiCode")String apiCode, @Body MobileSendBody mobileSendBody) ;
     @POST("/api/v1/user/login")
-    Single<MobileSendResponse> login (@Header("apiCode")String apiCode, @Body MobileSendBody mobileSendBody) ;
+    Call<MobileSendResponse> login (@Header("apiCode")String apiCode, @Body MobileSendBody mobileSendBody) ;
+
 
 
 
@@ -27,8 +33,16 @@ public interface ApiService {
 //    @POST("/api/v1/path/list")
 //    Single<GetPathResponse> getPathList (@Header ("apiCode")String apiKey,@Header("Authorization")String auth, @Body String str) ;
 
+//    @POST("/api/v1/path/list")
+//    Single<GetPathResponse> getPathList (@HeaderMap Map<String,String> headers, @Body SingleBody singleBody) ;
+
+
+//    @POST("/api/v1/path/list")
+//    Call<ResponseBody> getPathList (@HeaderMap Map<String,String> headers, @Body SingleBody singleBody) ;
+
     @POST("/api/v1/path/list")
-    Single<GetPathResponse> getPathList (@HeaderMap Map<String,String> headers, @Body SingleBody singleBody) ;
+    Call<GetPathResponse> getPathList (@HeaderMap Map<String,String> headers, @Body SingleBody singleBody) ;
+
 
 
 }
