@@ -28,6 +28,16 @@
                 android:layout_weight="0.4"
                 android:orientation="horizontal"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextStationTitle"
+                    android:text="مقصد"
+                    android:textSize="11sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"/>
                 <LinearLayout
                     android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
@@ -46,13 +56,7 @@
                         android:layout_marginEnd="4dp"
                         />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTextStationTitle"
-                        tools:text="مقصد:"
-                        android:textSize="11sp"
-                        android:layout_marginEnd="8dp"/>
+
 
 
                 </LinearLayout>
@@ -98,6 +102,16 @@
                 android:layout_weight="0.4"
                 android:orientation="horizontal"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextStationTitle"
+                    android:text="مبدا"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="11sp"
+                    android:layout_marginEnd="16dp"/>
                 <LinearLayout
                     android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
@@ -116,13 +130,7 @@
                         android:layout_marginEnd="4dp"
                         />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTextStationTitle"
-                        tools:text="مبدا:"
-                        android:textSize="11sp"
-                        android:layout_marginEnd="8dp"/>
+
 
 
                 </LinearLayout>
