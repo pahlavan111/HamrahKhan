@@ -55,7 +55,7 @@ public class PathAdapter extends RecyclerView.Adapter<PathAdapter.PathHolder> {
             Log.d("beh_err",e.toString());
         }
 
-        if (position>lastPosition){
+        if (position>=lastPosition){
             Animation animation= AnimationUtils.loadAnimation(context,R.anim.slide_down);
             holder.itemView.startAnimation(animation);
         }else {
