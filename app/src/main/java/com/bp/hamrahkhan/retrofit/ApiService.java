@@ -27,8 +27,11 @@ public interface ApiService {
 
 
 
+//    @POST("/api/v1/user/login/verify")
+//    Single<CodeSendResponse> verify (@Header ("apiCode")String apiKey, @Body CodeSendBody codeSendBody) ;
+
     @POST("/api/v1/user/login/verify")
-    Single<CodeSendResponse> verify (@Header ("apiCode")String apiKey, @Body CodeSendBody codeSendBody) ;
+    Call<CodeSendResponse> verify (@Header ("apiCode")String apiKey, @Body CodeSendBody codeSendBody) ;
 
 //    @POST("/api/v1/path/list")
 //    Single<GetPathResponse> getPathList (@Header ("apiCode")String apiKey,@Header("Authorization")String auth, @Body String str) ;

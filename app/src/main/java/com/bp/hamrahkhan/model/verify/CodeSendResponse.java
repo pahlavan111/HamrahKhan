@@ -1,46 +1,45 @@
 package com.bp.hamrahkhan.model.verify;
 
-import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
 public class CodeSendResponse {
 
-    @Nullable
+
     @SerializedName("Data")
-    Data DataObject;
+    Data data;
     @SerializedName("Code")
     private int Code;
     @SerializedName("Message")
     private String Message;
 
-    public CodeSendResponse(Data dataObject, int code, String message) {
-        DataObject = dataObject;
+    public CodeSendResponse(Data data, int code, String message) {
+        this.data = data;
         Code = code;
         Message = message;
     }
 
     public Data getData() {
-        return DataObject;
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
     }
 
     public int getCode() {
         return Code;
     }
 
+    public void setCode(int code) {
+        Code = code;
+    }
+
     public String getMessage() {
         return Message;
     }
 
-    public void setData(Data DataObject) {
-        this.DataObject = DataObject;
-    }
-
-    public void setCode(int Code) {
-        this.Code = Code;
-    }
-
-    public void setMessage(String Message) {
-        this.Message = Message;
+    public void setMessage(String message) {
+        Message = message;
     }
 }

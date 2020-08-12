@@ -9,6 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
         android:layout_height="?attr/actionBarSize">
 
     </androidx.appcompat.widget.Toolbar>
@@ -19,5 +20,22 @@
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+<!--    <LinearLayout-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <include layout="@layout/path_item1"/>-->
+<!--        <include layout="@layout/path_item1"/>-->
+<!--        <include layout="@layout/path_item1"/>-->
+<!--        <include layout="@layout/path_item1"/>-->
+<!--        <include layout="@layout/path_item1"/>-->
+<!--        <include layout="@layout/path_item1"/>-->
+
+
+
+
+<!--    </LinearLayout>-->
 
 </RelativeLayout>

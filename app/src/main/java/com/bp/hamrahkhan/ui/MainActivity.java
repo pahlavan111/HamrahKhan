@@ -2,7 +2,6 @@ package com.bp.hamrahkhan.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bp.hamrahkhan.R;
 import com.bp.hamrahkhan.model.verify.CodeSendResponse;
 import com.bp.hamrahkhan.retrofit.ApiClient;
@@ -29,10 +27,8 @@ import com.bp.hamrahkhan.retrofit.ApiService;
 import com.bp.hamrahkhan.model.verify.CodeSendBody;
 import com.bp.hamrahkhan.model.sms.MobileSendBody;
 import com.bp.hamrahkhan.model.sms.MobileSendResponse;
-import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         txtEditNum.setOnClickListener(v -> {
             timer.cancel();
+            edtCode.setText("");
             progressBar.setVisibility(View.GONE);
             turnToSendNumMode();
         });
@@ -166,85 +163,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        service.login(API_KEY,new MobileSendBody(mobile, API_KEY) ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new SingleObserver<MobileSendResponse>() {
-//            @Override
-//            public void onSubscribe(Disposable d) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(MobileSendResponse mobileSendResponse) {
-//
-//                 Log.d("beh",mobileSendResponse.getData().getMobileValidation()+"");
-//                switch (mobileSendResponse.getCode()) {
-//                    case 200:
-//                        if (linearSendNum.getVisibility() != View.GONE) {
-//                            turnToGetCodeMode();
-//                            timer.start();
-//                        }
-//
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                        break;
-//
-//                    case 400:
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                        Toast.makeText(MainActivity.this, "شماره تلفن اشتباه است", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case 503:
-//                    case 403:
-//                    case 402:
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                        Toast.makeText(MainActivity.this,mobileSendResponse.getMessage(), Toast.LENGTH_SHORT).show();
-//                        break;
-//
-//                    default:
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//
-//                Log.d("beh",e.toString());
-//
-//            }
-//        });
     }
 
     private void sendCode() {
         String code = edtCode.getText().toString();
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        service.verify(API_KEY,new CodeSendBody(mobile,code,0,"")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<CodeSendResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        Log.d("beh","onSubscribe");
-                    }
+        Call<CodeSendResponse> call=service.verify(API_KEY,new CodeSendBody(mobile,code,0,""));
+        call.enqueue(new Callback<CodeSendResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CodeSendResponse> call,@NonNull Response<CodeSendResponse> response) {
+                progressBar.setVisibility(View.INVISIBLE);
+                CodeSendResponse codeSendResponse=response.body();
+                assert codeSendResponse != null;
+                Log.d("beh",codeSendResponse.getMessage());
+                 timer.cancel();
 
-                    @Override
-                    public void onSuccess(CodeSendResponse codeSendResponse) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        timer.cancel();
-                        Toast.makeText(MainActivity.this, codeSendResponse.getCode()+"", Toast.LENGTH_SHORT).show();
+               Toast.makeText(MainActivity.this, codeSendResponse.getMessage()+"", Toast.LENGTH_SHORT).show();
 
-                        if (codeSendResponse.getCode()==200){
+                if (codeSendResponse.getCode()==200){
+                    Intent intent=new Intent(MainActivity.this,ActivityPathList.class);
+                    intent.putExtra("mobile",mobile);
+                    intent.putExtra("token",codeSendResponse.getData().getToken());
+                    startActivity(intent);
+                    finish();
+                }
+            }
 
-                            Intent intent=new Intent(MainActivity.this,ActivityPathList.class);
-                            intent.putExtra("mobile",mobile);
-                            intent.putExtra("token",codeSendResponse.getData().getToken());
-                            startActivity(intent);
-                            finish();
-                        }
+            @Override
+            public void onFailure( Call<CodeSendResponse> call, Throwable t) {
 
-                    }
+                Log.d("beh",t.toString());
 
-                    @Override
-                    public void onError(Throwable e) {
+            }
+        });
 
-                        Log.d("beh",e.toString());
-                    }
-                });
+
     }
 
     private void setUpView() {
