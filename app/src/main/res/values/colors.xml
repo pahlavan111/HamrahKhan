@@ -7,12 +7,15 @@
     <color name="colorEdtDrawable">#31AF94</color>
     <color name="colorMaximumRed">#D61F1F</color>
     <color name="colorCGRed">#E03C32</color>
+    <color name="secondPage">#00838F</color>
 
 
     <color name="colorTextBlue">#BC131A56</color>
     <color name="colorTextBlueDark">#131A56</color>
     <color name="colorTextGreen">#266839</color>
-    <color name="secondPage">#00838F</color>
-    <color name="text_white">#ffffff</color>
-    <color name="text_two">#BD4F4F4F</color>
+    <color name="colorTextAWhite">#ffffff</color>
+    <color name="colorTextStation">#56A28A</color>
+    <color name="colorTextDestination">#D69093</color>
+    <color name="colorTextStationTitle">#5B7184</color>
+
 </resources>
