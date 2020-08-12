@@ -2,6 +2,7 @@ package com.bp.hamrahkhan.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bp.hamrahkhan.R;
 import com.bp.hamrahkhan.model.verify.CodeSendResponse;
 import com.bp.hamrahkhan.retrofit.ApiClient;
@@ -65,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                String str=edtNumber.getText().toString();
-                if (str.equals("0")){
+                String str = edtNumber.getText().toString();
+                if (str.equals("0")) {
                     edtNumber.setText("");
                     Toast.makeText(MainActivity.this, "شماره همراه را بدون صفر وارد کنید", Toast.LENGTH_SHORT).show();
                 }
@@ -131,26 +133,24 @@ public class MainActivity extends AppCompatActivity {
 
         mobile = Long.parseLong(edtNumber.getText().toString());
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        service.login(API_KEY,new MobileSendBody(mobile,API_KEY)).enqueue(new Callback<MobileSendResponse>() {
+        service.login(API_KEY, new MobileSendBody(mobile, API_KEY)).enqueue(new Callback<MobileSendResponse>() {
             @Override
-            public void onResponse(@NonNull Call<MobileSendResponse> call,@NonNull Response<MobileSendResponse> response) {
-                MobileSendResponse mobileSendResponse=response.body();
+            public void onResponse(@NonNull Call<MobileSendResponse> call, @NonNull Response<MobileSendResponse> response) {
+                MobileSendResponse mobileSendResponse = response.body();
 
                 assert mobileSendResponse != null;
                 Log.d("beh", String.valueOf(mobileSendResponse.getData().getMobileValidation()));
 
-                if (mobileSendResponse.getCode()==200) {
+                if (mobileSendResponse.getCode() == 200) {
                     if (linearSendNum.getVisibility() != View.GONE) {
                         turnToGetCodeMode();
                         timer.start();
                     }
 
                     progressBar.setVisibility(View.INVISIBLE);
-                }else{
-                    Toast.makeText(MainActivity.this, mobileSendResponse.getMessage()+"", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, mobileSendResponse.getMessage() + "", Toast.LENGTH_SHORT).show();
                 }
-
-
 
 
             }
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<MobileSendResponse> call, Throwable t) {
 
-                Log.d("beh",t.toString());
+                Log.d("beh", t.toString());
 
             }
         });
@@ -168,31 +168,31 @@ public class MainActivity extends AppCompatActivity {
     private void sendCode() {
         String code = edtCode.getText().toString();
         ApiService service = ApiClient.getClient().create(ApiService.class);
-        Call<CodeSendResponse> call=service.verify(API_KEY,new CodeSendBody(mobile,code,0,""));
+        Call<CodeSendResponse> call = service.verify(API_KEY, new CodeSendBody(mobile, code, 0, ""));
         call.enqueue(new Callback<CodeSendResponse>() {
             @Override
-            public void onResponse(@NonNull Call<CodeSendResponse> call,@NonNull Response<CodeSendResponse> response) {
+            public void onResponse(@NonNull Call<CodeSendResponse> call, @NonNull Response<CodeSendResponse> response) {
                 progressBar.setVisibility(View.INVISIBLE);
-                CodeSendResponse codeSendResponse=response.body();
+                CodeSendResponse codeSendResponse = response.body();
                 assert codeSendResponse != null;
-                Log.d("beh",codeSendResponse.getMessage());
-                 timer.cancel();
+                Log.d("beh", codeSendResponse.getMessage());
+                timer.cancel();
 
-               Toast.makeText(MainActivity.this, codeSendResponse.getMessage()+"", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MainActivity.this, codeSendResponse.getMessage() + "", Toast.LENGTH_SHORT).show();
 
-                if (codeSendResponse.getCode()==200){
-                    Intent intent=new Intent(MainActivity.this,ActivityPathList.class);
-                    intent.putExtra("mobile",mobile);
-                    intent.putExtra("token",codeSendResponse.getData().getToken());
+                if (codeSendResponse.getCode() == 200) {
+                    Intent intent = new Intent(MainActivity.this, ActivityPathList.class);
+                    intent.putExtra("mobile", mobile);
+                    intent.putExtra("token", codeSendResponse.getData().getToken());
                     startActivity(intent);
                     finish();
                 }
             }
 
             @Override
-            public void onFailure( Call<CodeSendResponse> call, Throwable t) {
+            public void onFailure(Call<CodeSendResponse> call, Throwable t) {
 
-                Log.d("beh",t.toString());
+                Log.d("beh", t.toString());
 
             }
         });
@@ -276,9 +276,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (progressBar.getVisibility()==View.VISIBLE){
+        if (progressBar.getVisibility() == View.VISIBLE) {
             progressBar.setVisibility(View.GONE);
-        }else{
+        } else {
             super.onBackPressed();
         }
 

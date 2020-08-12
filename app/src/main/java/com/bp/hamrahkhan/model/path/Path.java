@@ -12,13 +12,16 @@ public class Path {
     private String title;
     @SerializedName("type")
     private String type;
+    @SerializedName("inventoryCount")
+    private int inventoryCount;
     @SerializedName("stations")
     ArrayList<Station> stations;
 
-    public Path(String code, String title, String type, ArrayList<Station> stations) {
+    public Path(String code, String title, String type, int inventoryCount, ArrayList<Station> stations) {
         this.code = code;
         this.title = title;
         this.type = type;
+        this.inventoryCount = inventoryCount;
         this.stations = stations;
     }
 
@@ -44,6 +47,14 @@ public class Path {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getInventoryCount() {
+        return inventoryCount;
+    }
+
+    public void setInventoryCount(int inventoryCount) {
+        this.inventoryCount = inventoryCount;
     }
 
     public ArrayList<Station> getStations() {

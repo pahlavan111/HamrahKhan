@@ -56,10 +56,6 @@ public class ActivityPathList extends AppCompatActivity {
         headers.put("apiCode", MainActivity.API_KEY);
         headers.put("Authorization", token);
 
-//        String str="{\n" +
-//                "\"mobile\": 9112129219\n" +
-//                "}";
-
         ApiService service = ApiClient.getClient().create(ApiService.class);
 
         Call<GetPathResponse> call = service.getPathList(headers, new SingleBody(mobile));
@@ -68,10 +64,10 @@ public class ActivityPathList extends AppCompatActivity {
             public void onResponse(Call<GetPathResponse> call, Response<GetPathResponse> response) {
                 GetPathResponse getPathResponse = response.body();
                 assert getPathResponse != null;
-                Toast.makeText(ActivityPathList.this, getPathResponse.getCode() + "", Toast.LENGTH_SHORT).show();
-                Toast.makeText(ActivityPathList.this, getPathResponse.getData().getPages() + "--- perPages =" + getPathResponse.getData().getPerPage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(ActivityPathList.this, getPathResponse.getData().getPaths().size()+"", Toast.LENGTH_SHORT).show();
-                Path path;
+//                Toast.makeText(ActivityPathList.this, getPathResponse.getCode() + "", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ActivityPathList.this, getPathResponse.getData().getPages() + "--- perPages =" + getPathResponse.getData().getPerPage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ActivityPathList.this, getPathResponse.getData().getPaths().size()+"", Toast.LENGTH_SHORT).show();
+//
                 PathAdapter pathAdapter= new PathAdapter(getApplicationContext(),getPathResponse.getData().getPaths());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
                 recyclerView.setAdapter(pathAdapter);
@@ -87,46 +83,5 @@ public class ActivityPathList extends AppCompatActivity {
     }
 }
 
-//
-//        ////////////////////////////////////////////////////////
-////        Call<ResponseBody> call=service.getPathList(headers,new SingleBody(mobile));
-////        call.enqueue(new Callback<ResponseBody>() {
-////            @Override
-////            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-////                try {
-////                    Log.d("beh",response.body().string());
-////                } catch (IOException e) {
-////                    e.printStackTrace();
-////                }
-////            }
-////
-////            @Override
-////            public void onFailure(Call<ResponseBody> call, Throwable t) {
-////
-////            }
-////        });
-//
-//        ///////////////////////////////////////////////////////////////
-//
-////        service.getPathList(headers,new SingleBody(mobile)).subscribeOn(Schedulers.newThread())
-////                .observeOn(AndroidSchedulers.mainThread())
-////                .subscribe(new SingleObserver<GetPathResponse>() {
-////                    @Override
-////                    public void onSubscribe(Disposable d) {
-////
-////                    }
-////
-////                    @Override
-////                    public void onSuccess(GetPathResponse getPathResponse) {
-////                        Log.d("Beh",getPathResponse.getCode()+"");
-////                    }
-////
-////                    @Override
-////                    public void onError(Throwable e) {
-////                        Toast.makeText(ActivityPathList.this, e.toString()+"", Toast.LENGTH_SHORT).show();
-////                    }
-////                });
-//
-//    }
 
 

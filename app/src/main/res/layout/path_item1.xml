@@ -71,11 +71,11 @@
                     android:id="@+id/txt_plan_count"
                     android:layout_centerInParent="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorTextStationTitle"
-                    android:textSize="8sp"
+                    android:textSize="10sp"
                     android:text="4"
                     />
                 <TextView
