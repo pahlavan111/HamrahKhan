@@ -42,4 +42,5 @@ public class CodeSendResponse {
     public void setMessage(String message) {
         Message = message;
     }
+
 }

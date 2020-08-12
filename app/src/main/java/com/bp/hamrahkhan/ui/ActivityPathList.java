@@ -67,6 +67,7 @@ public class ActivityPathList extends AppCompatActivity {
         call.enqueue(new Callback<GetPathResponse>() {
             @Override
             public void onResponse(Call<GetPathResponse> call, Response<GetPathResponse> response) {
+
                 GetPathResponse getPathResponse = response.body();
                 progressBar.setVisibility(View.GONE);
                 assert getPathResponse != null;

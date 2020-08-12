@@ -31,9 +31,12 @@ import com.bp.hamrahkhan.model.sms.MobileSendBody;
 import com.bp.hamrahkhan.model.sms.MobileSendResponse;
 
 import java.io.IOException;
+import java.util.Objects;
 
+import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.internal.http2.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -139,20 +142,26 @@ public class MainActivity extends AppCompatActivity {
         service.login(API_KEY, new MobileSendBody(mobile, API_KEY)).enqueue(new Callback<MobileSendResponse>() {
             @Override
             public void onResponse(@NonNull Call<MobileSendResponse> call, @NonNull Response<MobileSendResponse> response) {
-                MobileSendResponse mobileSendResponse = response.body();
 
-                assert mobileSendResponse != null;
-                Log.d("beh", String.valueOf(mobileSendResponse.getData().getMobileValidation()));
-
-                if (mobileSendResponse.getCode() == 200) {
+                if (response.code()==200){
+                    MobileSendResponse mobileSendResponse = response.body();
                     if (linearSendNum.getVisibility() != View.GONE) {
                         turnToGetCodeMode();
                         timer.start();
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
 
-                    progressBar.setVisibility(View.INVISIBLE);
+//                    assert mobileSendResponse != null;
+//                    Log.d("beh", String.valueOf(mobileSendResponse.getData().getMobileValidation()));
+
+
+
+                }else if (response.code()== 400) {
+
+                    Toast.makeText(MainActivity.this, "داری اشتباه میزنی!!!", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    Toast.makeText(MainActivity.this, mobileSendResponse.getMessage() + "", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, response.code()+ "  یه جای کار میلنگه!!  ", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -176,21 +185,29 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<CodeSendResponse>() {
             @Override
             public void onResponse(@NonNull Call<CodeSendResponse> call, @NonNull Response<CodeSendResponse> response) {
-                progressBar.setVisibility(View.INVISIBLE);
-                CodeSendResponse codeSendResponse = response.body();
-                assert codeSendResponse != null;
-             //   Log.d("beh", codeSendResponse.getMessage());
-                timer.cancel();
 
-              //  Toast.makeText(MainActivity.this, codeSendResponse.getMessage() + "", Toast.LENGTH_SHORT).show();
+                if (response.code() == 200) {
 
-                if (codeSendResponse.getCode() == 200) {
+                    CodeSendResponse codeSendResponse = response.body();
+                    timer.cancel();
+
+
                     Intent intent = new Intent(MainActivity.this, ActivityPathList.class);
                     intent.putExtra("mobile", mobile);
                     intent.putExtra("token", codeSendResponse.getData().getToken());
                     startActivity(intent);
                     finish();
+
+                } else if (response.code() == 400) {
+
+                    Toast.makeText(MainActivity.this, " داری اشتباه میزنی!!! ", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Toast.makeText(MainActivity.this, response.code() + " یه جای کار میلنگه ", Toast.LENGTH_SHORT).show();
+
                 }
+                progressBar.setVisibility(View.INVISIBLE);
+
             }
 
             @Override
