@@ -2,28 +2,25 @@ package com.bp.hamrahkhan.ui;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import com.bp.hamrahkhan.R;
-import com.bp.hamrahkhan.model.path.Data;
 import com.bp.hamrahkhan.model.path.GetPathResponse;
+import com.bp.hamrahkhan.model.path.Path;
 import com.bp.hamrahkhan.model.path.SingleBody;
 import com.bp.hamrahkhan.retrofit.ApiClient;
 import com.bp.hamrahkhan.retrofit.ApiService;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +30,7 @@ public class ActivityPathList extends AppCompatActivity {
     Toolbar toolbar;
     Long mobile;
     String token;
+    RecyclerView recyclerView;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -49,7 +47,7 @@ public class ActivityPathList extends AppCompatActivity {
         Log.d("beh", mobile.toString());
         Log.d("beh", token);
 
-        RecyclerView rv_path = findViewById(R.id.rv_path_list);
+        recyclerView = findViewById(R.id.rv_path_list);
         getPathList();
     }
 
@@ -72,6 +70,12 @@ public class ActivityPathList extends AppCompatActivity {
                 assert getPathResponse != null;
                 Toast.makeText(ActivityPathList.this, getPathResponse.getCode() + "", Toast.LENGTH_SHORT).show();
                 Toast.makeText(ActivityPathList.this, getPathResponse.getData().getPages() + "--- perPages =" + getPathResponse.getData().getPerPage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityPathList.this, getPathResponse.getData().getPaths().size()+"", Toast.LENGTH_SHORT).show();
+                Path path;
+                PathAdapter pathAdapter= new PathAdapter(getApplicationContext(),getPathResponse.getData().getPaths());
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
+                recyclerView.setAdapter(pathAdapter);
+
 
             }
 
