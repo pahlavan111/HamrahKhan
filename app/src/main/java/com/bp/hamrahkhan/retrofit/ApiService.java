@@ -8,6 +8,8 @@ import com.bp.hamrahkhan.model.sms.MobileSendResponse;
 import com.bp.hamrahkhan.model.verify.CodeSendBody;
 import com.bp.hamrahkhan.model.verify.CodeSendResponse;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -29,6 +31,9 @@ public interface ApiService {
 
     @POST("/api/v1/user/login/verify")
     Call<CodeSendResponse> verify (@Header ("apiCode")String apiKey, @Body CodeSendBody codeSendBody) ;
+
+//    @POST("/api/v1/user/login/verify")
+//    Call<ResponseBody> primaryVerify (@Header ("apiCode")String apiKey, @Body CodeSendBody codeSendBody) ;
 
 //    @POST("/api/v1/path/list")
 //    Single<GetPathResponse> getPathList (@Header ("apiCode")String apiKey,@Header("Authorization")String auth, @Body String str) ;

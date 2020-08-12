@@ -30,7 +30,10 @@ import com.bp.hamrahkhan.model.verify.CodeSendBody;
 import com.bp.hamrahkhan.model.sms.MobileSendBody;
 import com.bp.hamrahkhan.model.sms.MobileSendResponse;
 
+import java.io.IOException;
+
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -167,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendCode() {
         String code = edtCode.getText().toString();
+
         ApiService service = ApiClient.getClient().create(ApiService.class);
         Call<CodeSendResponse> call = service.verify(API_KEY, new CodeSendBody(mobile, code, 0, ""));
         call.enqueue(new Callback<CodeSendResponse>() {
@@ -175,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 CodeSendResponse codeSendResponse = response.body();
                 assert codeSendResponse != null;
-                Log.d("beh", codeSendResponse.getMessage());
+             //   Log.d("beh", codeSendResponse.getMessage());
                 timer.cancel();
 
               //  Toast.makeText(MainActivity.this, codeSendResponse.getMessage() + "", Toast.LENGTH_SHORT).show();
@@ -192,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CodeSendResponse> call, Throwable t) {
 
-                Log.d("beh", t.toString());
+                Log.d("beh_fail", t.toString());
 
             }
         });
