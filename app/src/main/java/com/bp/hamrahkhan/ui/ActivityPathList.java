@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import com.bp.hamrahkhan.R;
@@ -31,6 +33,7 @@ public class ActivityPathList extends AppCompatActivity {
     Long mobile;
     String token;
     RecyclerView recyclerView;
+    ProgressBar progressBar;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -38,11 +41,13 @@ public class ActivityPathList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_path_list);
         toolbar = findViewById(R.id.toolbar);
+        progressBar= findViewById(R.id.spin_kit_2);
+        progressBar.setVisibility(View.VISIBLE);
 
         mobile = Objects.requireNonNull(getIntent().getExtras()).getLong("mobile");
         token = getIntent().getExtras().getString("token");
 
-        Toast.makeText(this, mobile + " " + token, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, mobile + " " + token, Toast.LENGTH_SHORT).show();
 
         Log.d("beh", mobile.toString());
         Log.d("beh", token);
@@ -63,11 +68,8 @@ public class ActivityPathList extends AppCompatActivity {
             @Override
             public void onResponse(Call<GetPathResponse> call, Response<GetPathResponse> response) {
                 GetPathResponse getPathResponse = response.body();
+                progressBar.setVisibility(View.GONE);
                 assert getPathResponse != null;
-//                Toast.makeText(ActivityPathList.this, getPathResponse.getCode() + "", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(ActivityPathList.this, getPathResponse.getData().getPages() + "--- perPages =" + getPathResponse.getData().getPerPage(), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(ActivityPathList.this, getPathResponse.getData().getPaths().size()+"", Toast.LENGTH_SHORT).show();
-//
                 PathAdapter pathAdapter= new PathAdapter(getApplicationContext(),getPathResponse.getData().getPaths());
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
                 recyclerView.setAdapter(pathAdapter);
